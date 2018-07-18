@@ -10,6 +10,9 @@ categories = ["command-line-utilities", "development-tools"]
 license = "MIT"
 readme = "README.md"
 
+[badges]
+travis-ci = { repository = "haxelion/dev_info" }
+
 [dependencies]
 ansi_term = "0.11"
 getopts   = "0.2"

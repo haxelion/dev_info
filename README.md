@@ -1,5 +1,8 @@
 # dev_info
 
+[![Crates.io](https://img.shields.io/crates/v/dev_info.svg)](https://crates.io/crates/dev_info)
+[![Build Status](https://travis-ci.org/haxelion/dev_info.svg?branch=master)](https://travis-ci.org/haxelion/dev_info)
+
 ``dev_info`` is a simple command line utility that can display informations related to the current 
 git directory. Contrary to other alternatives, it is quite fast because it relies on ``libgit2`` 
 to directly obtain repository information without spawning other processes.
