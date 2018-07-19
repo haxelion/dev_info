@@ -2,6 +2,7 @@ extern crate ansi_term;
 extern crate getopts;
 extern crate git2;
 
+use std::iter::Sum;
 use std::usize;
 use ansi_term::{Color, Style};
 
@@ -112,23 +113,21 @@ fn main() {
                     print!("{}", scheme[0].paint(branch_name));
                 }
             }
-            if options.git_branch && options.git_commit_id > 0 {
-                print!(":");
-            }
             if options.git_commit_id > 0 {
                 if let Ok(commit) = head.peel_to_commit() {
+                    if options.git_branch {
+                        print!(":");
+                    }
                     let id = format!("{}", commit.id());
                     print!("{}", scheme[3].paint(&id[..options.git_commit_id]));
                 }
-            }
-            if options.git_commit_id > 0 && options.git_state {
-                print!(" ");
             }
             if options.git_state {
                 if let Ok(statuses) = repo.statuses(None) {
                     let letters = ['N', 'D', 'M', 'R', 'T', 'C'];
                     let palette = [1, 3, 2, 0, 0, 3];
                     let mut counts = [0u32;6];
+
                     for status in statuses.iter() {
                         if status.status().is_wt_new() {
                             counts[0] += 1;
@@ -148,6 +147,9 @@ fn main() {
                         if status.status().is_conflicted() {
                             counts[5] += 1;
                         }
+                    }
+                    if options.git_commit_id > 0 && counts.iter().sum::<u32>() > 0 {
+                        print!(" ");
                     }
                     for i in 0..counts.len() {
                         if counts[i] > 0 {
